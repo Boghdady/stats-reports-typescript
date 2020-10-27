@@ -1,5 +1,11 @@
-console.log("Hi There")
-console.log("Hi There 2")
-console.log("Hi There 3")
-console.log("Hi There 4")
+import fs from 'fs';
+
+const matches: string[][] = fs.readFileSync('football.csv',{
+  encoding:'utf-8'
+})
+.split('\n')
+.map((row: string): string[] => row.split(',') );
+
+console.log(matches);
+
 
