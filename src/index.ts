@@ -1,20 +1,22 @@
-import fs from 'fs';
+import { CsvFileReader } from "./CsvFileReader";
 
-// 1) Load and Parse data from csv file
-const matches: string[][] = fs.readFileSync('football.csv',{
-  encoding:'utf-8'
-})
-.split('\n')
-.map((row: string): string[] => row.split(',') );
+
+const csvFileReader = new CsvFileReader('football.csv');
+csvFileReader.read();
 
 
 // 2) Analyze How many times Man United Team Win
+enum MatchResult {
+  HomeWin = 'H',
+  AwayWin = 'A',
+  Draw = 'D'
+};
 let manUnitedWin = 0;
 
-for(let match of matches) {
-  if(match[1] === "Man United" && match[5]=== 'H') {
+for(let match of csvFileReader.data) {
+  if(match[1] === "Man United" && match[5]=== MatchResult.HomeWin) {
     manUnitedWin++;
-  } else if (match[2] === "Man United" && match[5]=== 'A') {
+  } else if (match[2] === "Man United" && match[5]=== MatchResult.AwayWin) {
     manUnitedWin++;
   }
 }
