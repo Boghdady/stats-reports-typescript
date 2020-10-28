@@ -1,5 +1,6 @@
 import fs from 'fs';
 
+// 1) Load and Parse data from csv file
 const matches: string[][] = fs.readFileSync('football.csv',{
   encoding:'utf-8'
 })
@@ -7,6 +8,7 @@ const matches: string[][] = fs.readFileSync('football.csv',{
 .map((row: string): string[] => row.split(',') );
 
 
+// 2) Analyze How many times Man United Team Win
 let manUnitedWin = 0;
 
 for(let match of matches) {
