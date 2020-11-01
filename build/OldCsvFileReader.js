@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OldCsvFileReader = void 0;
 var fs_1 = __importDefault(require("fs"));
-var utils_1 = require("./utils");
+var utils_1 = require("./helpers/utils");
 var OldCsvFileReader = /** @class */ (function () {
     function OldCsvFileReader(filename) {
         this.filename = filename;

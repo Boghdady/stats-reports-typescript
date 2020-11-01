@@ -1,6 +1,6 @@
 import { CsvFileReader } from "./CsvFileReader";
-import { MatchResult } from "./MatchResult";
-import { stringDateToDate } from "./utils";
+import { MatchResult } from "../helpers/MatchResult";
+import { stringDateToDate } from "../helpers/utils";
 
 // Create a tuple to define types into match row
 type RowDataType = [Date, string , string, number, number, MatchResult, string];

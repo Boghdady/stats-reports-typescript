@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { stringDateToDate } from './utils';
-import { MatchResult } from "./MatchResult";
+import { stringDateToDate } from './helpers/utils';
+import { MatchResult } from "./helpers/MatchResult";
 
 // Create a tuple to define types into match row
 type RowType = [Date, string , string, number, number, MatchResult, string];
