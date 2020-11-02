@@ -1,14 +1,13 @@
 import fs from 'fs';
 import { MatchResult } from '../helpers/MatchResult';
+import { RowMatchType } from '../helpers/RowRypes';
 import { stringDateToDate } from '../helpers/utils';
-import {ICsvFileReader} from './CCsvFileReader';
-// Create a tuple to define types into match row
-type RowDataType = [Date, string , string, number, number, MatchResult, string];
+import { ICsvFileReader } from './CCsvFileReader';
 
-export  class CFootballCsvFileReader implements ICsvFileReader<RowDataType> {
+export  class CFootballCsvFileReader implements ICsvFileReader<RowMatchType> {
   
   constructor(public filename: string){}
-  data: RowDataType[] = [];
+  data: RowMatchType[] = [];
 
   // 1) Load and Parse data from csv file
    read(): void {
@@ -19,7 +18,7 @@ export  class CFootballCsvFileReader implements ICsvFileReader<RowDataType> {
     .map((row: string): string[] => row.split(',')).map(this.mapRowConversion);
    }
 
-   mapRowConversion(row: string[]): RowDataType {
+   mapRowConversion(row: string[]): RowMatchType {
     return [
       stringDateToDate(row[0]),
       row[1],

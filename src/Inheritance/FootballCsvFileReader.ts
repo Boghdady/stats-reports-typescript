@@ -1,12 +1,12 @@
-import { CsvFileReader } from "./CsvFileReader";
 import { MatchResult } from "../helpers/MatchResult";
 import { stringDateToDate } from "../helpers/utils";
+import { RowMatchType } from "../helpers/RowRypes";
+import { CsvFileReader } from "./CsvFileReader";
 
 // Create a tuple to define types into match row
-type RowDataType = [Date, string , string, number, number, MatchResult, string];
 
-export class FootballCsvFileReader extends CsvFileReader<RowDataType> {
-  mapRowConversion(row: string[]): RowDataType {
+export class FootballCsvFileReader extends CsvFileReader<RowMatchType> {
+  mapRowConversion(row: string[]): RowMatchType {
     return [
       stringDateToDate(row[0]),
       row[1],

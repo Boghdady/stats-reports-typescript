@@ -6,9 +6,6 @@ var CCsvFileReader = /** @class */ (function () {
         this.reader = reader;
         this.data = [];
     }
-    // set matches(value: T[]) {
-    //   value = value;
-    // }
     CCsvFileReader.prototype.load = function () {
         this.reader.read();
         this.data = this.reader.data;

@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var FootballCsvFileReader_1 = require("./Inheritance/FootballCsvFileReader");
-var MatchResult_1 = require("./helpers/MatchResult");
-var CCsvFileReader_1 = require("./Composition/CCsvFileReader");
-var CFootballCsvFileReader_1 = require("./Composition/CFootballCsvFileReader");
+var FootballCsvFileReader_1 = require("./inheritance/FootballCsvFileReader");
+var CCsvFileReader_1 = require("./composition/CCsvFileReader");
+var CFootballCsvFileReader_1 = require("./composition/CFootballCsvFileReader");
+var WinsAnalysis_1 = require("./reports/analyzers/WinsAnalysis");
+var Summary_1 = require("./reports/Summary");
+var ConsoleReport_1 = require("./reports/reportTarget/ConsoleReport");
+// 1) Load Data from csv file
 // Using Inheritance refactoring
 var footballCsvFileReader = new FootballCsvFileReader_1.FootballCsvFileReader('football.csv');
 footballCsvFileReader.read();
@@ -11,17 +14,9 @@ footballCsvFileReader.read();
 // Create a tuple to define types into match row
 var cFootballCsvFileReader = new CFootballCsvFileReader_1.CFootballCsvFileReader('football.csv');
 var cCsvFileReader = new CCsvFileReader_1.CCsvFileReader(cFootballCsvFileReader);
-console.log(cCsvFileReader.data);
 cCsvFileReader.load();
-// 2) Analyze How many times Man United Team Win
-var manUnitedWin = 0;
-for (var _i = 0, _a = footballCsvFileReader.data; _i < _a.length; _i++) {
-    var match = _a[_i];
-    if (match[1] === "Man United" && match[5] === MatchResult_1.MatchResult.HomeWin) {
-        manUnitedWin++;
-    }
-    else if (match[2] === "Man United" && match[5] === MatchResult_1.MatchResult.AwayWin) {
-        manUnitedWin++;
-    }
-}
-console.log("Man United won " + manUnitedWin + " games");
+// 2) Make analysis and build report depend on this analysis
+var winsAnalysis = new WinsAnalysis_1.WinsAnalysis('Man United');
+var consoleReport = new ConsoleReport_1.ConsoleReport();
+var summary = new Summary_1.Summary(winsAnalysis, consoleReport);
+summary.buildAndPrintReport(cCsvFileReader.data);

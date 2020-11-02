@@ -1,9 +1,14 @@
-import { FootballCsvFileReader } from "./Inheritance/FootballCsvFileReader";
+import { FootballCsvFileReader } from "./inheritance/FootballCsvFileReader";
 import { MatchResult } from "./helpers/MatchResult";
-import { CCsvFileReader } from "./Composition/CCsvFileReader";
+import { CCsvFileReader } from "./composition/CCsvFileReader";
 
-import { CFootballCsvFileReader } from "./Composition/CFootballCsvFileReader";
+import { CFootballCsvFileReader } from "./composition/CFootballCsvFileReader";
+import { RowMatchType } from "./helpers/RowRypes";
+import { WinsAnalysis } from "./reports/analyzers/WinsAnalysis";
+import { Summary } from "./reports/Summary";
+import { ConsoleReport } from "./reports/reportTarget/ConsoleReport";
 
+// 1) Load Data from csv file
 // Using Inheritance refactoring
 const footballCsvFileReader = new FootballCsvFileReader('football.csv');
 footballCsvFileReader.read();
@@ -11,20 +16,13 @@ footballCsvFileReader.read();
 // Using Composition Refactor
 // Create a tuple to define types into match row
 const cFootballCsvFileReader = new CFootballCsvFileReader('football.csv');
-const cCsvFileReader = new CCsvFileReader(cFootballCsvFileReader);
-console.log(cCsvFileReader.data);
-cCsvFileReader.load()
+const cCsvFileReader = new CCsvFileReader<RowMatchType>(cFootballCsvFileReader);
+cCsvFileReader.load();
 
-// 2) Analyze How many times Man United Team Win
-let manUnitedWin = 0;
-for(let match of footballCsvFileReader.data) {
-  if(match[1] === "Man United" && match[5]=== MatchResult.HomeWin) {
-    manUnitedWin++;
-  } else if (match[2] === "Man United" && match[5]=== MatchResult.AwayWin) {
-    manUnitedWin++;
-  }
-}
+// 2) Make analysis and build report depend on this analysis
+const winsAnalysis = new WinsAnalysis('Man United');
+const consoleReport = new ConsoleReport();
 
-console.log(`Man United won ${manUnitedWin} games`);
-
+const summary = new Summary(winsAnalysis, consoleReport);
+summary.buildAndPrintReport(cCsvFileReader.data);
 
