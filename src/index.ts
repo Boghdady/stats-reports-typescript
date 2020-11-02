@@ -7,6 +7,7 @@ import { RowMatchType } from "./helpers/RowRypes";
 import { WinsAnalysis } from "./reports/analyzers/WinsAnalysis";
 import { Summary } from "./reports/Summary";
 import { ConsoleReport } from "./reports/reportTarget/ConsoleReport";
+import { HtmlReport } from "./reports/reportTarget/HtmlReport";
 
 // 1) Load Data from csv file
 // Using Inheritance refactoring
@@ -20,9 +21,10 @@ const cCsvFileReader = new CCsvFileReader<RowMatchType>(cFootballCsvFileReader);
 cCsvFileReader.load();
 
 // 2) Make analysis and build report depend on this analysis
-const winsAnalysis = new WinsAnalysis('Man United');
-const consoleReport = new ConsoleReport();
-
-const summary = new Summary(winsAnalysis, consoleReport);
+const summary = new Summary(
+  new WinsAnalysis('Man United'),
+  // new ConsoleReport()
+  new HtmlReport('report.html')
+);
 summary.buildAndPrintReport(cCsvFileReader.data);
 
